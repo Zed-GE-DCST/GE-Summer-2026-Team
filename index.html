@@ -196,6 +196,7 @@
   measurementId: "G-WQH00RQJYW"
  
 };
+ 
   const META = { title:'Summer 2026 Team Meeting', sub:'Claude + the Data & Carbon Solutions team', dates:'2\u20134 June 2026' };
   const AUTO_AREAS = ['Report drafting','Data entry & cleaning','Client comms','Research & lookups','Internal coordination'];
 
@@ -473,7 +474,7 @@
     document.getElementById('gb-ov-dl').onclick=()=>{ try{ const blob=new Blob([text],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ge_session_results.txt'; document.body.appendChild(a); a.click(); a.remove(); }catch(e){ alert('Download blocked here, use Copy instead.'); } };
     document.getElementById('gb-ov-close').onclick=()=>{ ov.style.display='none'; };
   }
-  if(!ADMIN){ const r=document.getElementById('gb-reset'); const e=document.getElementById('gb-export'); if(r)r.style.display='none'; if(e)e.style.display='none'; }
+  if(!ADMIN){ ['gb-reset','gb-export','gb-refresh'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
   initBackend();
   refreshAll(); setInterval(refreshAll,4000);
 })();
