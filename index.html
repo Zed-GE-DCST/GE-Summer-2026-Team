@@ -139,6 +139,9 @@
   .gb-admin-badge{background:var(--clay); color:#fff; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3px 9px; border-radius:6px;}
   .gb-admin-row{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;}
   .gb-hidden-note{font-size:13.5px; color:var(--muted); font-style:italic; text-align:center; padding:30px 12px; line-height:1.4;}
+  .gb-admin-only{display:none !important;}
+  #ge-board.admin .gb-admin-row.gb-admin-only{display:flex !important;}
+  #ge-board.admin button.gb-admin-only{display:inline-block !important;}
 
   @media (max-width:680px){ .gb-two{grid-template-columns:1fr; gap:16px;} .gb-title{font-size:23px;} .gb-scale{flex-wrap:wrap;} .gb-donut-wrap{flex-direction:column; align-items:flex-start;} .gb-header{min-height:0;} .gb-head-main{max-width:none;} .gb-logo{position:static; margin-top:16px; height:48px;} }
 </style>
@@ -160,9 +163,9 @@
 <div class="gb-foot">
   <div class="gb-foot-note">Live via Firebase. Host this page and share its link, everyone who opens it sees the same results in real time. Anonymous. Export before you reset.</div>
   <div style="display:flex; gap:8px;">
-    <button class="gb-mini" id="gb-export">Export results</button>
-    <button class="gb-mini" id="gb-refresh">Refresh</button>
-    <button class="gb-mini" id="gb-reset">Reset all</button>
+    <button class="gb-mini gb-admin-only" id="gb-export">Export results</button>
+    <button class="gb-mini gb-admin-only" id="gb-refresh">Refresh</button>
+    <button class="gb-mini gb-admin-only" id="gb-reset">Reset all</button>
   </div>
 </div>
 
@@ -254,8 +257,16 @@
   document.getElementById('gb-title').textContent=META.title;
   document.getElementById('gb-sub').textContent=META.sub;
   document.getElementById('gb-dates').textContent=META.dates;
-  const ADMIN = (location.hash+location.search).toLowerCase().indexOf('admin')>=0;
-  if(ADMIN){ const lv=document.querySelector('#ge-board .gb-live'); if(lv){ const b=document.createElement('span'); b.className='gb-admin-badge'; b.textContent='Admin'; lv.prepend(b); } }
+  const root = document.getElementById('ge-board');
+  const lvEl = document.querySelector('#ge-board .gb-live');
+  let adminBadge=null;
+  function setAdmin(on){
+    if(on){ root.classList.add('admin'); if(lvEl && !adminBadge){ adminBadge=document.createElement('span'); adminBadge.className='gb-admin-badge'; adminBadge.textContent='Admin'; lvEl.prepend(adminBadge); } }
+    else { root.classList.remove('admin'); if(adminBadge){ adminBadge.remove(); adminBadge=null; } }
+  }
+  setAdmin((location.hash+location.search).toLowerCase().indexOf('admin')>=0);
+  document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='A'||e.key==='a')){ e.preventDefault(); setAdmin(!root.classList.contains('admin')); } });
+  (function(){ const lg=document.querySelector('#ge-board .gb-logo'); if(lg){ let n=0,t=0; lg.addEventListener('click', function(){ const now=Date.now(); n=(now-t<800)?n+1:1; t=now; if(n>=5){ n=0; setAdmin(!root.classList.contains('admin')); } }); } }());
 
   function initBackend(){
     const ok = (typeof firebase!=='undefined') && firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE')===-1;
@@ -311,11 +322,12 @@
     if(q.type==='example'){
       let lft='<div class="gb-scenario">'+q.q+'</div>'
         +'<div class="gb-gb"><div class="gb-opt good" data-opt="0">Good use</div><div class="gb-opt bad" data-opt="1">Bad use</div></div>';
-      if(ADMIN){ lft+='<div class="gb-admin-row"><button class="gb-reveal-btn" data-rv="'+q.id+'">Reveal votes</button><button class="gb-reveal-btn" data-ra="'+q.id+'">Reveal answer</button></div>'; }
+      lft+='<div class="gb-admin-row gb-admin-only"><button class="gb-reveal-btn" data-rv="'+q.id+'">Reveal votes</button><button class="gb-reveal-btn" data-ra="'+q.id+'">Reveal answer</button></div>';
       lft+='<div class="gb-answer '+q.answer+'" id="ans-'+q.id+'"><b>'+(q.answer==='good'?'Good use.':'Bad use.')+'</b> '+q.why+'</div>';
       card.innerHTML='<div class="gb-two"><div>'+lft+'</div><div class="gb-chart" id="chart-'+q.id+'"><div class="gb-hidden-note" id="hid-'+q.id+'">Votes hidden until reveal</div><div id="dh-'+q.id+'" style="display:none">'+donutSkeleton(2,['#85BE00','#b9572f'])+'</div></div></div>';
       card.querySelectorAll('.gb-opt').forEach(el=>el.onclick=()=>castVote(q,parseInt(el.dataset.opt,10)));
-      if(ADMIN){ card.querySelector('[data-rv]').onclick=()=>toggleFlag('rv:'+q.id); card.querySelector('[data-ra]').onclick=()=>toggleFlag('ra:'+q.id); }
+      const rvb=card.querySelector('[data-rv]'); if(rvb) rvb.onclick=()=>toggleFlag('rv:'+q.id);
+      const rab=card.querySelector('[data-ra]'); if(rab) rab.onclick=()=>toggleFlag('ra:'+q.id);
       return card;
     }
 
@@ -383,7 +395,7 @@
       const chart=document.getElementById('chart-'+q.id);
       const dh=document.getElementById('dh-'+q.id), hid=document.getElementById('hid-'+q.id);
       const ansEl=document.getElementById('ans-'+q.id); if(ansEl) ansEl.classList.toggle('show', answered);
-      if(ADMIN){ const rb=card.querySelector('[data-rv]'); const ab=card.querySelector('[data-ra]'); if(rb) rb.textContent=revealed?'Hide votes':'Reveal votes'; if(ab) ab.textContent=answered?'Hide answer':'Reveal answer'; }
+      { const rb=card.querySelector('[data-rv]'); const ab=card.querySelector('[data-ra]'); if(rb) rb.textContent=revealed?'Hide votes':'Reveal votes'; if(ab) ab.textContent=answered?'Hide answer':'Reveal answer'; }
       if(revealed){
         if(dh) dh.style.display=''; if(hid) hid.style.display='none';
         const dt=chart.querySelector('#dtot'); if(dt) dt.textContent=total;
@@ -392,7 +404,7 @@
         const leg=chart.querySelector('#leg'); if(leg){ leg.innerHTML=labels.map((l,i)=>{const pct=total?Math.round(counts[i]/total*100):0; return '<div class="gb-leg-row"><span class="gb-leg-dot" style="background:'+colors[i]+'"></span><span class="gb-leg-lab">'+l+'</span><span class="gb-leg-val">'+counts[i]+' \u00b7 '+pct+'%</span></div>';}).join(''); }
       } else {
         if(dh) dh.style.display='none';
-        if(hid){ hid.style.display=''; hid.textContent = ADMIN ? ('Votes hidden \u00b7 '+total+' in. Click Reveal votes.') : 'Votes hidden until reveal'; }
+        if(hid){ hid.style.display=''; hid.textContent = root.classList.contains('admin') ? ('Votes hidden \u00b7 '+total+' in. Click Reveal votes.') : 'Votes hidden until reveal'; }
       }
       if(prevTotals[q.id]!==undefined && total>prevTotals[q.id] && revealed){ chart.classList.add('bump'); setTimeout(()=>chart.classList.remove('bump'),500); }
       prevTotals[q.id]=total; return;
@@ -474,7 +486,7 @@
     document.getElementById('gb-ov-dl').onclick=()=>{ try{ const blob=new Blob([text],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ge_session_results.txt'; document.body.appendChild(a); a.click(); a.remove(); }catch(e){ alert('Download blocked here, use Copy instead.'); } };
     document.getElementById('gb-ov-close').onclick=()=>{ ov.style.display='none'; };
   }
-  if(!ADMIN){ ['gb-reset','gb-export','gb-refresh'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display='none'; }); }
+  // admin control visibility is handled by the .admin class on #ge-board
   initBackend();
   refreshAll(); setInterval(refreshAll,4000);
 })();
