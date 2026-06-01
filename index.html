@@ -133,6 +133,12 @@
   .gb-ov-h{font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--teal); margin-bottom:12px;}
   .gb-ov-ta{flex:1; min-height:300px; font-family:monospace; font-size:12px; line-height:1.5; border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--cream); color:var(--ink); resize:vertical;}
   .gb-ov-btns{display:flex; gap:8px; margin-top:12px; justify-content:flex-end; flex-wrap:wrap;}
+  .gb-cloud{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:center; padding:14px 6px;}
+  .gb-word2{font-family:'Fraunces',serif; line-height:1.05; display:inline-flex; align-items:baseline; gap:3px; white-space:nowrap; transition:font-size .45s cubic-bezier(.2,.7,.3,1); transform-origin:center;}
+  .gb-cnt2{font-family:'Hanken Grotesk',sans-serif; font-size:10px; font-weight:700; color:#fff; background:var(--muted); border-radius:9px; padding:1px 6px; transform:translateY(-6px);}
+  .gb-admin-badge{background:var(--clay); color:#fff; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:3px 9px; border-radius:6px;}
+  .gb-admin-row{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;}
+  .gb-hidden-note{font-size:13.5px; color:var(--muted); font-style:italic; text-align:center; padding:30px 12px; line-height:1.4;}
 
   @media (max-width:680px){ .gb-two{grid-template-columns:1fr; gap:16px;} .gb-title{font-size:23px;} .gb-scale{flex-wrap:wrap;} .gb-donut-wrap{flex-direction:column; align-items:flex-start;} .gb-header{min-height:0;} .gb-head-main{max-width:none;} .gb-logo{position:static; margin-top:16px; height:48px;} }
 </style>
@@ -172,7 +178,7 @@
   // Get this from Firebase console > Project settings > your web app.
   // It MUST include databaseURL (that line only appears after you create the Realtime Database).
   const firebaseConfig = {
-  
+ 
   apiKey: "AIzaSyD0xREvPnNgX2Wu_sp3gf0t1B0qzvaghro",
  
   authDomain: "ge-summer-2026-meet.firebaseapp.com",
@@ -188,8 +194,8 @@
   appId: "1:415114964640:web:51314048525c885d9d23c5",
  
   measurementId: "G-WQH00RQJYW"
-};
  
+};
   const META = { title:'Summer 2026 Team Meeting', sub:'Claude + the Data & Carbon Solutions team', dates:'2\u20134 June 2026' };
   const AUTO_AREAS = ['Report drafting','Data entry & cleaning','Client comms','Research & lookups','Internal coordination'];
 
@@ -247,6 +253,8 @@
   document.getElementById('gb-title').textContent=META.title;
   document.getElementById('gb-sub').textContent=META.sub;
   document.getElementById('gb-dates').textContent=META.dates;
+  const ADMIN = (location.hash+location.search).toLowerCase().indexOf('admin')>=0;
+  if(ADMIN){ const lv=document.querySelector('#ge-board .gb-live'); if(lv){ const b=document.createElement('span'); b.className='gb-admin-badge'; b.textContent='Admin'; lv.prepend(b); } }
 
   function initBackend(){
     const ok = (typeof firebase!=='undefined') && firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE')===-1;
@@ -300,13 +308,13 @@
     }
 
     if(q.type==='example'){
-      card.innerHTML='<div class="gb-two"><div><div class="gb-scenario">'+q.q+'</div>'
-        +'<div class="gb-gb"><div class="gb-opt good" data-opt="0">Good use</div><div class="gb-opt bad" data-opt="1">Bad use</div></div>'
-        +'<button class="gb-reveal-btn" data-rev="'+q.id+'">Reveal answer</button>'
-        +'<div class="gb-answer '+q.answer+'" id="ans-'+q.id+'"><b>'+(q.answer==='good'?'Good use.':'Bad use.')+'</b> '+q.why+'</div></div>'
-        +'<div class="gb-chart" id="chart-'+q.id+'">'+donutSkeleton(2,['#85BE00','#b9572f'])+'</div></div>';
+      let lft='<div class="gb-scenario">'+q.q+'</div>'
+        +'<div class="gb-gb"><div class="gb-opt good" data-opt="0">Good use</div><div class="gb-opt bad" data-opt="1">Bad use</div></div>';
+      if(ADMIN){ lft+='<div class="gb-admin-row"><button class="gb-reveal-btn" data-rv="'+q.id+'">Reveal votes</button><button class="gb-reveal-btn" data-ra="'+q.id+'">Reveal answer</button></div>'; }
+      lft+='<div class="gb-answer '+q.answer+'" id="ans-'+q.id+'"><b>'+(q.answer==='good'?'Good use.':'Bad use.')+'</b> '+q.why+'</div>';
+      card.innerHTML='<div class="gb-two"><div>'+lft+'</div><div class="gb-chart" id="chart-'+q.id+'"><div class="gb-hidden-note" id="hid-'+q.id+'">Votes hidden until reveal</div><div id="dh-'+q.id+'" style="display:none">'+donutSkeleton(2,['#85BE00','#b9572f'])+'</div></div></div>';
       card.querySelectorAll('.gb-opt').forEach(el=>el.onclick=()=>castVote(q,parseInt(el.dataset.opt,10)));
-      card.querySelector('[data-rev]').onclick=()=>document.getElementById('ans-'+q.id).classList.toggle('show');
+      if(ADMIN){ card.querySelector('[data-rv]').onclick=()=>toggleFlag('rv:'+q.id); card.querySelector('[data-ra]').onclick=()=>toggleFlag('ra:'+q.id); }
       return card;
     }
 
@@ -344,13 +352,17 @@
 
   async function submitOpen(q){ const ta=document.getElementById('ta-'+q.id); const t=(ta.value||'').trim(); if(!t)return; let tag=''; if(q.tags){const s=document.getElementById('tag-'+q.id); tag=s.value||'General';} await sSet('s:'+q.id+':'+uid(), tag+'\u0001'+t.slice(0,200)); ta.value=''; if(q.tags)document.getElementById('tag-'+q.id).value=''; renderWall(q); }
   async function submitOther(qid){ const inp=document.getElementById('oin-'+qid); const t=(inp.value||'').trim(); if(!t)return; await sSet('o:'+qid+':'+uid(), t.slice(0,120)); inp.value=''; renderQ(allQ.find(x=>x.id===qid)); }
+  async function toggleFlag(key){ const src=usingFirebase?cache:localStore; if(src[key]){ await sDel(key); } else { await sSet(key,'1'); } refreshAll(); }
 
   function cloudHTML(items){
     if(!items.length) return '<div class="gb-empty">No answers yet. Be the first.</div>';
-    const max=Math.max.apply(null,items.map(o=>o.count));
-    return '<div class="gb-cloud">'+items.map(o=>{
-      const px = max<=1 ? 14 : Math.round(14+(o.count-1)/(max-1)*14);
-      return '<span class="gb-chip" style="font-size:'+px+'px">'+esc(o.text)+(o.count>1?'<span class="gb-cnt">'+o.count+'</span>':'')+'</span>';
+    const angs=[-3,2,-1,3,-2,1];
+    return '<div class="gb-cloud">'+items.map(function(o,i){
+      const px=Math.min(50, 16+(o.count-1)*7);
+      const col=PAL[i%PAL.length];
+      const wt=o.count>=4?800:o.count>=2?700:600;
+      const rot=angs[i%angs.length];
+      return '<span class="gb-word2" style="font-size:'+px+'px;color:'+col+';font-weight:'+wt+';transform:rotate('+rot+'deg)">'+esc(o.text)+(o.count>1?'<span class="gb-cnt2">'+o.count+'</span>':'')+'</span>';
     }).join('')+'</div>';
   }
   function tally(texts){ const m={}; texts.forEach(t=>{const k=norm(t); if(!m[k])m[k]={text:t,count:0}; m[k].count++;}); return Object.values(m).sort((a,b)=>b.count-a.count); }
@@ -364,11 +376,30 @@
     const card=document.getElementById('card-'+q.id);
     const ct=document.getElementById('ct-'+q.id); if(ct) ct.textContent=(total||0)+(q.type==='multi'?' picks':' votes');
 
-    if(q.type==='example' || q.chart==='pie'){
+    if(q.type==='example'){
+      const src = usingFirebase?cache:localStore;
+      const revealed = !!src['rv:'+q.id]; const answered = !!src['ra:'+q.id];
+      const chart=document.getElementById('chart-'+q.id);
+      const dh=document.getElementById('dh-'+q.id), hid=document.getElementById('hid-'+q.id);
+      const ansEl=document.getElementById('ans-'+q.id); if(ansEl) ansEl.classList.toggle('show', answered);
+      if(ADMIN){ const rb=card.querySelector('[data-rv]'); const ab=card.querySelector('[data-ra]'); if(rb) rb.textContent=revealed?'Hide votes':'Reveal votes'; if(ab) ab.textContent=answered?'Hide answer':'Reveal answer'; }
+      if(revealed){
+        if(dh) dh.style.display=''; if(hid) hid.style.display='none';
+        const dt=chart.querySelector('#dtot'); if(dt) dt.textContent=total;
+        let cum=0; const labels=['Good use','Bad use']; const colors=['#85BE00','#b9572f'];
+        for(let i=0;i<2;i++){ const frac=total?counts[i]/total:0; const len=frac*C; const sl=chart.querySelector('#sl-'+i); if(sl){ sl.setAttribute('stroke-dasharray', len+' '+(C-len)); sl.setAttribute('stroke-dashoffset', -cum); } cum+=len; }
+        const leg=chart.querySelector('#leg'); if(leg){ leg.innerHTML=labels.map((l,i)=>{const pct=total?Math.round(counts[i]/total*100):0; return '<div class="gb-leg-row"><span class="gb-leg-dot" style="background:'+colors[i]+'"></span><span class="gb-leg-lab">'+l+'</span><span class="gb-leg-val">'+counts[i]+' \u00b7 '+pct+'%</span></div>';}).join(''); }
+      } else {
+        if(dh) dh.style.display='none';
+        if(hid){ hid.style.display=''; hid.textContent = ADMIN ? ('Votes hidden \u00b7 '+total+' in. Click Reveal votes.') : 'Votes hidden until reveal'; }
+      }
+      if(prevTotals[q.id]!==undefined && total>prevTotals[q.id] && revealed){ chart.classList.add('bump'); setTimeout(()=>chart.classList.remove('bump'),500); }
+      prevTotals[q.id]=total; return;
+    }
+    if(q.chart==='pie'){
       const chart=document.getElementById('chart-'+q.id);
       const dt=chart.querySelector('#dtot'); if(dt) dt.textContent=total;
-      let cum=0; const labels = q.type==='example'?['Good use','Bad use']:q.opts;
-      const colors = q.type==='example'?['#85BE00','#b9572f']:PAL;
+      let cum=0; const labels = q.opts; const colors = PAL;
       for(let i=0;i<n;i++){ const frac=total?counts[i]/total:0; const len=frac*C; const sl=chart.querySelector('#sl-'+i); if(sl){ sl.setAttribute('stroke-dasharray', len+' '+(C-len)); sl.setAttribute('stroke-dashoffset', -cum); } cum+=len; }
       const leg=chart.querySelector('#leg'); if(leg){ leg.innerHTML=labels.map((l,i)=>{const pct=total?Math.round(counts[i]/total*100):0; return '<div class="gb-leg-row"><span class="gb-leg-dot" style="background:'+colors[i%colors.length]+'"></span><span class="gb-leg-lab">'+l+'</span><span class="gb-leg-val">'+counts[i]+' \u00b7 '+pct+'%</span></div>';}).join(''); }
     } else if(q.chart==='column'){
@@ -442,6 +473,7 @@
     document.getElementById('gb-ov-dl').onclick=()=>{ try{ const blob=new Blob([text],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ge_session_results.txt'; document.body.appendChild(a); a.click(); a.remove(); }catch(e){ alert('Download blocked here, use Copy instead.'); } };
     document.getElementById('gb-ov-close').onclick=()=>{ ov.style.display='none'; };
   }
+  if(!ADMIN){ const r=document.getElementById('gb-reset'); const e=document.getElementById('gb-export'); if(r)r.style.display='none'; if(e)e.style.display='none'; }
   initBackend();
   refreshAll(); setInterval(refreshAll,4000);
 })();
