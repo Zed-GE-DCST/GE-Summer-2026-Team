@@ -151,6 +151,7 @@
   .gb-tl-status{display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:2px 7px; border-radius:5px; margin-bottom:8px;}
   .gb-tl-items{font-size:12.5px; color:var(--ink); line-height:1.45;}
   @media(max-width:680px){ .gb-tl-track{flex-direction:column; min-width:0;} .gb-tl-track::before{display:none;} .gb-tl-col{text-align:left; padding:8px 0 8px 16px; border-left:2px solid var(--line); margin-left:8px;} .gb-tl-dot{margin-bottom:4px;} }
+  .gb-noteblock{margin:14px 0;}
 
   @media (max-width:680px){ .gb-two{grid-template-columns:1fr; gap:16px;} .gb-title{font-size:23px;} .gb-scale{flex-wrap:wrap;} .gb-donut-wrap{flex-direction:column; align-items:flex-start;} .gb-header{min-height:0;} .gb-head-main{max-width:none;} .gb-logo{position:static; margin-top:16px; height:48px;} }
 </style>
@@ -189,7 +190,7 @@
   // ====== PASTE YOUR FIREBASE CONFIG HERE (between the braces) ======
   // Get this from Firebase console > Project settings > your web app.
   // It MUST include databaseURL (that line only appears after you create the Realtime Database).
- const firebaseConfig = {
+  const firebaseConfig = {
  
   apiKey: "AIzaSyD0xREvPnNgX2Wu_sp3gf0t1B0qzvaghro",
  
@@ -214,6 +215,7 @@
    '<div class="gb-timeline"><div class="gb-tl-track">'
    +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#85BE00"></span><div class="gb-tl-band">Live now</div><span class="gb-tl-status" style="background:#eaf2d4;color:#4b6b1f">Live</span><div class="gb-tl-items">New Claude Team account and usage guardrails \u00b7 this interactive session tooling</div></div>'
    +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#00544F"></span><div class="gb-tl-band">In progress</div><span class="gb-tl-status" style="background:#d7e6e3;color:#00544F">Building</span><div class="gb-tl-items">GE Intelligence dashboard</div></div>'
+   +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#e0902e"></span><div class="gb-tl-band">Targeted ~ June 2026</div><span class="gb-tl-status" style="background:#f6ecd2;color:#8a6a1e">Target</span><div class="gb-tl-items">Greener Edge newsletter</div></div>'
    +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#d6a93d"></span><div class="gb-tl-band">Targeted ~ Sept 2026</div><span class="gb-tl-status" style="background:#f6ecd2;color:#8a6a1e">Target</span><div class="gb-tl-items">Internal carbon calculators (organisational & product)</div></div>'
    +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#3f9183"></span><div class="gb-tl-band">Rolling alongside</div><span class="gb-tl-status" style="background:#dceeeb;color:#2f6f64">Ongoing</span><div class="gb-tl-items">Claude knowledge project folders per workstream</div></div>'
    +'<div class="gb-tl-col"><span class="gb-tl-dot" style="background:#b9572f"></span><div class="gb-tl-band">Exploring</div><span class="gb-tl-status" style="background:#f3ddcf;color:#8a3d1e">Exploring</span><div class="gb-tl-items">Automation flows the team surfaces today</div></div>'
@@ -248,10 +250,12 @@
     ]},
     { id:'board', label:'The Board', title:'GE Intelligence', qs:[
       { id:'b1', type:'multi', chart:'bar', q:'What would make the board most useful to you?', hint:'Pick your top few',
-        opts:['More sector benchmarks','Easier to update','Clearer visuals','Links to our existing tools','Available on demand'] },
+        opts:['More sector benchmarks','Clearer visuals','Knowledge base outputting information in a report-ready format','Expanded filter options','Linking to project folder numbers'] },
       { id:'b2', type:'open', q:'One thing you\u2019d want the board to show that it doesn\u2019t yet?', hint:'Type and send' },
     ]},
-    { id:'roadmap', label:'Roadmap', title:'Tech roadmap', intro:TIMELINE_HTML, qs:[
+    { id:'roadmap', label:'Roadmap', title:'Tech roadmap', qs:[
+      { id:'r0', type:'open', q:'What topics would you like the Greener Edge newsletter to cover?', hint:'Type and send' },
+      { id:'tl', type:'note', html:TIMELINE_HTML },
       { id:'r1', type:'multi', chart:'bar', q:'Which of these would help your work the most?', hint:'Pick your top few',
         opts:['GE Intelligence dashboard','Internal carbon calculators (organisational & product)','Claude knowledge folders','Automated workflows'] },
       { id:'r2', type:'open', q:'What tech development would help you that\u2019s not on here?', hint:'Type and send' },
@@ -263,7 +267,7 @@
     ]},
     { id:'wrap', label:'Wrap', title:'Before we close', qs:[
       { id:'c2', type:'multi', chart:'pie', q:'What would help you most to get going?', hint:'Pick your top few',
-        opts:['A shared GE Project to start from','A short how-to guide','Examples to copy','Someone to pair with','Time set aside to practise'] },
+        opts:['A shared GE Project to start from','A short how-to guide','Examples to copy','A set of ready-made prompts'] },
       { id:'c3', type:'open', q:'What shared-knowledge project folders would stop us constantly hunting for information?', hint:'Your ideas, type and send' },
     ]},
   ];
@@ -330,6 +334,7 @@
 
   function buildCard(q){
     const card=document.createElement('div'); card.className='gb-card'; card.id='card-'+q.id;
+    if(q.type==='note'){ card.className='gb-noteblock'; card.innerHTML=q.html; return card; }
 
     if(q.type==='open'){
       let h='<div class="gb-q">'+q.q+'</div>'+(q.hint?'<div class="gb-hint">'+q.hint+'</div>':'');
@@ -402,6 +407,7 @@
   function tally(texts){ const m={}; texts.forEach(t=>{const k=norm(t); if(!m[k])m[k]={text:t,count:0}; m[k].count++;}); return Object.values(m).sort((a,b)=>b.count-a.count); }
 
   async function renderQ(q){
+    if(q.type==='note') return;
     if(q.type==='open') return renderWall(q);
     const n=q.type==='scale'?5:q.type==='example'?2:q.opts.length;
     const keys=await sList('v:'+q.id+':'); const counts=new Array(n).fill(0);
@@ -478,6 +484,7 @@
     for(const s of SECTIONS){
       L.push(''); L.push('== '+s.title+' ==');
       for(const q of s.qs){
+        if(q.type==='note') continue;
         L.push(''); L.push(q.q);
         if(q.type==='open'){
           const keys=await sList('s:'+q.id+':'); const items=[];
