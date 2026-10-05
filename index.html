@@ -77,54 +77,55 @@ a{color:var(--teal);font-weight:700}
 .ghost{min-height:54px;padding:0 20px;border:2px solid var(--mist);border-radius:999px;background:transparent;font-weight:700;font-size:17px;cursor:pointer;margin-top:12px}
 
 /* ---------- Screen view ---------- */
-.screen{height:100%;background:var(--teal);color:#fff;display:grid;grid-template-rows:auto auto 1fr auto;overflow:hidden}
-.sc-top{display:flex;align-items:center;justify-content:space-between;padding:22px 44px 0}
-.sc-brand{font-family:var(--display);font-weight:700;font-size:20px;display:flex;gap:10px;align-items:center;opacity:.95}
-.sc-prog{font-size:18px;opacity:.75}
-.sc-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;padding:24px 44px;min-height:0}
-.sc-stage{min-height:0;display:flex;flex-direction:column;justify-content:center}
-.sc-sec{font-size:22px;color:var(--lime);margin:0 0 10px;font-weight:700}
-.sc-q{font-family:var(--display);font-weight:800;font-size:clamp(34px,3.6vw,58px);line-height:1.08;margin:0 0 14px;letter-spacing:-.01em;max-width:24ch}
-.sc-scn{font-family:var(--display);font-weight:600;font-size:clamp(28px,2.8vw,44px);line-height:1.2;margin:0 0 22px;max-width:30ch}
-.sc-hint{font-size:22px;line-height:1.4;opacity:.85;margin:0 0 26px;max-width:60ch}
-.bars{display:grid;gap:16px;max-width:1000px}
-.bar-top{display:flex;justify-content:space-between;align-items:baseline;font-size:24px;margin-bottom:6px;gap:16px}
-.bar-top .n{font-family:var(--display);font-weight:800;font-size:28px}
-.track{height:26px;background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden;position:relative}
+.screen{height:100%;background:var(--teal);color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.screen .banner{position:absolute;top:0;left:0;right:0;z-index:5}
+.sc-top{display:flex;align-items:center;justify-content:space-between;padding:clamp(12px,2.2vh,22px) clamp(20px,3vw,44px) 0;flex:none}
+.sc-brand{font-family:var(--display);font-weight:700;font-size:clamp(15px,1.4vw,20px);display:flex;gap:10px;align-items:center;opacity:.95}
+.sc-prog{font-size:clamp(14px,1.2vw,18px);opacity:.75}
+.sc-main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(170px,21vw,290px);gap:clamp(20px,3vw,48px);padding:clamp(10px,2vh,24px) clamp(20px,3vw,44px);min-height:0}
+.sc-stage{min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:center}
+.sc-sec{font-size:clamp(15px,1.5vw,22px);color:var(--lime);margin:0 0 10px;font-weight:700}
+.sc-q{font-family:var(--display);font-weight:800;font-size:clamp(26px,min(3.8vw,6.4vh),58px);line-height:1.08;margin:0 0 14px;letter-spacing:-.01em;max-width:26ch}
+.sc-scn{font-family:var(--display);font-weight:600;font-size:clamp(22px,min(2.8vw,5vh),44px);line-height:1.2;margin:0 0 22px;max-width:32ch}
+.sc-hint{font-size:clamp(15px,1.5vw,22px);line-height:1.4;opacity:.85;margin:0 0 26px;max-width:60ch}
+.bars{display:grid;gap:clamp(8px,1.8vh,16px);max-width:1000px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;font-size:clamp(15px,1.5vw,23px);line-height:1.3;margin-bottom:5px;gap:16px}
+.bar-top .n{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,28px);flex:none}
+.track{height:clamp(14px,2.4vh,26px);background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden;position:relative}
 .fill{height:100%;background:var(--lime);border-radius:6px;width:0;transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .bar.correct .fill{background:#C8F06A}
 .bar.correct .bar-top span:first-child::after{content:"  \2713";color:var(--lime)}
 .bar.dim .fill{background:rgba(255,255,255,.35)}
 .cmp{height:6px;margin-top:4px;background:rgba(255,255,255,.45);border-radius:3px;width:0}
 .cmp-key{font-size:18px;opacity:.75;margin-top:8px}
-.hidden-v{font-size:26px;opacity:.8;padding:18px 0}
-.answer{margin-top:26px;background:#fff;color:var(--ink);border-radius:14px;padding:18px 22px;font-size:24px;line-height:1.4;max-width:1000px;border-left:10px solid var(--lime)}
+.hidden-v{font-size:clamp(18px,1.8vw,26px);opacity:.8;padding:18px 0}
+.answer{margin-top:clamp(12px,2.4vh,26px);background:#fff;color:var(--ink);border-radius:14px;padding:clamp(10px,1.6vh,18px) 22px;font-size:clamp(16px,1.6vw,24px);line-height:1.4;max-width:1000px;border-left:10px solid var(--lime)}
 .answer.bad{border-left-color:var(--bad)}
 .answer b{font-family:var(--display)}
-.sc-note-b{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:22px 40px;max-width:1200px}
-.sc-note-b li{border-left:6px solid var(--lime);padding-left:18px;font-size:23px;line-height:1.4}
-.sc-note-b b{display:block;font-family:var(--display);font-size:28px;margin-bottom:2px}
-.sc-body{font-size:30px;line-height:1.4;max-width:40ch;opacity:.9}
-.sc-foot{margin-top:28px;font-size:22px;opacity:.85}
+.sc-note-b{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2.2vh,22px) 40px;max-width:1200px}
+.sc-note-b li{border-left:6px solid var(--lime);padding-left:18px;font-size:clamp(15px,1.45vw,23px);line-height:1.4}
+.sc-note-b b{display:block;font-family:var(--display);font-size:clamp(18px,1.8vw,28px);margin-bottom:2px}
+.sc-body{font-size:clamp(18px,2vw,30px);line-height:1.4;max-width:40ch;opacity:.9}
+.sc-foot{margin-top:clamp(12px,2.6vh,28px);font-size:clamp(14px,1.4vw,21px);opacity:.85;max-width:70ch}
 .wall{display:flex;flex-wrap:wrap;gap:12px;max-width:1200px;max-height:58vh;overflow:auto}
 .wall span{background:#fff;color:var(--ink);border-radius:12px;padding:10px 16px;font-size:22px;line-height:1.3}
 .wall span i{font-style:normal;color:var(--teal);font-weight:700;margin-left:8px}
 .sc-empty{font-size:24px;opacity:.75}
 .road{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;max-width:1500px;margin-top:10px}
 .road div{border-top:6px solid var(--lime);padding-top:12px}
-.road .w{font-family:var(--display);font-weight:700;font-size:22px}
+.road .w{font-family:var(--display);font-weight:700;font-size:clamp(15px,1.4vw,22px)}
 .road .t{display:inline-block;font-size:15px;font-weight:700;padding:2px 10px;border-radius:999px;margin:6px 0;background:rgba(255,255,255,.14)}
-.road .i{font-size:19px;line-height:1.4;opacity:.9}
+.road .i{font-size:clamp(13px,1.2vw,19px);line-height:1.4;opacity:.9}
 .road .alpha{border-color:#9FD3C9}.road .build{border-color:#E0B94A}.road .target{border-color:#E0902E}.road .ongoing{border-color:#7FC1B5}.road .explore{border-color:#E39A80}
 .sc-side{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;text-align:center}
-.qr{background:#fff;padding:16px;border-radius:16px;width:248px;height:248px;display:grid;place-items:center}
-.qr img,.qr canvas{width:216px!important;height:216px!important}
-.join{font-size:19px;line-height:1.35;word-break:break-all;opacity:.9}
-.count{font-family:var(--display);font-weight:800;font-size:64px;line-height:1;color:var(--lime)}
-.count-l{font-size:18px;opacity:.8;margin-top:-6px}
-.sc-ctrl{display:flex;gap:8px;flex-wrap:wrap;padding:12px 44px 18px;opacity:.25;transition:opacity .2s}
+.qr{background:#fff;padding:clamp(8px,1vw,16px);border-radius:16px;width:clamp(140px,17vw,248px);aspect-ratio:1;display:grid;place-items:center;color:var(--ink)}
+.qr img,.qr canvas{width:100%!important;height:auto!important}
+.join{font-size:clamp(12px,1.15vw,18px);line-height:1.35;word-break:break-all;opacity:.9}
+.count{font-family:var(--display);font-weight:800;font-size:clamp(36px,4.2vw,64px);line-height:1;color:var(--lime)}
+.count-l{font-size:clamp(12px,1.2vw,18px);opacity:.8;margin-top:-6px}
+.sc-ctrl{flex:none;display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px clamp(20px,3vw,44px) 10px;opacity:.4;transition:opacity .2s}
 .sc-ctrl:hover,.sc-ctrl:focus-within{opacity:1}
-.sc-ctrl button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:9px 14px;font-size:15px;cursor:pointer}
+.sc-ctrl button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:8px;padding:4px 10px;font-size:13px;line-height:1.4;cursor:pointer}
 .sc-ctrl button.on{background:var(--lime);color:var(--ink);border-color:var(--lime)}
 .sc-ctrl .sp{flex:1}
 .banner{background:#F3D9A6;color:#3d2c00;padding:10px 20px;font-size:15px;display:none}
@@ -133,7 +134,39 @@ a{color:var(--teal);font-weight:700}
 .overlay h2{font-family:var(--display);font-size:44px;margin:0 0 24px}
 .olist{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px}
 .olist div{background:#fff;color:var(--ink);border-radius:14px;padding:16px 20px;font-size:22px;line-height:1.4}
-@media (max-width:1100px){.sc-main{grid-template-columns:1fr}.sc-side{display:none}.sc-note-b{grid-template-columns:1fr}.road{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:1000px){.sc-note-b{grid-template-columns:1fr}.road{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:700px){.sc-main{grid-template-columns:1fr}.sc-side{display:none}}
+
+.sc-intro{max-width:1100px}
+.sc-intro .sc-q{font-size:clamp(34px,min(6vw,10vh),92px);max-width:18ch;margin-bottom:22px}
+.sc-intro .sc-body{max-width:44ch}
+.tag-b{display:inline-block;margin-left:10px;font-size:.8em;background:#E0B94A;color:var(--ink);padding:1px 10px;border-radius:999px;font-weight:700}
+.cloud{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;max-width:1200px;margin-top:clamp(10px,2vh,22px)}
+.cloud span{font-family:var(--display);font-weight:700;line-height:1.05;transition:font-size .4s}
+.cloud-h{font-size:clamp(14px,1.3vw,19px);opacity:.75;margin-top:clamp(14px,2.6vh,26px)}
+.life{margin-top:clamp(10px,2vh,24px);max-width:1300px}
+.life-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px}
+.life-st{background:rgba(255,255,255,.1);border-top:6px solid var(--lime);border-radius:4px;padding:clamp(8px,1.4vh,14px) 10px;font-size:clamp(13px,1.25vw,20px);line-height:1.25;font-weight:700;min-height:clamp(56px,10vh,96px)}
+.life-st.post{border-top-color:#9FD3C9}
+.life-br{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin-top:10px}
+.life-br div{border:2px solid rgba(255,255,255,.55);border-top:0;height:14px;border-radius:0 0 6px 6px}
+.life-lab{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;font-size:clamp(13px,1.2vw,19px);margin-top:4px;opacity:.9}
+.life-cmp{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,30px);margin-top:clamp(16px,3.4vh,36px)}
+.life-cmp div{background:#fff;color:var(--ink);border-radius:14px;padding:clamp(10px,1.6vh,18px) 20px;font-size:clamp(14px,1.35vw,21px);line-height:1.4}
+.life-cmp b{display:block;font-family:var(--display);font-size:clamp(17px,1.6vw,25px)}
+.ph-life{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+.ph-life li{background:#fff;border:1px solid var(--mist);border-left:6px solid var(--lime);border-radius:10px;padding:10px 14px;font-size:17px;font-weight:700}
+.ph-life li.post{border-left-color:#9FD3C9}
+.ph-life .gate{font-size:15px;color:var(--muted);font-weight:400;padding:2px 4px;border:0;background:none}
+.ph-cmp{margin-top:18px;display:grid;gap:10px}
+.ph-cmp div{background:#EAF3F1;border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.45}
+.ph-cmp b{display:block;font-family:var(--display);font-size:17px}
+.other-row{display:flex;gap:8px;margin-top:14px}
+.other-row input{flex:1;min-width:0;min-height:54px;padding:0 14px;border:2px solid var(--mist);border-radius:14px;font:inherit;font-size:17px;background:#fff;color:var(--ink)}
+.other-row input:focus{border-color:var(--teal);outline:none}
+.other-row .send{margin-top:0;padding:0 18px}
+.ph-intro{padding-top:12px}
+.ph-intro .ph-q{font-size:clamp(28px,8vw,36px)}
 </style>
 </head>
 <body>
@@ -152,7 +185,7 @@ const firebaseConfig = {
 };
 const ROOT = 'oct2026';
 const SESSION = 'Team session, 7 October';
-const STEPS = [{"id": "w1", "type": "single", "q": "How much do you use Claude now?", "opts": ["Never", "Once or twice", "Now and then", "Most days"], "compare": {"label": "June, 13 votes", "pct": [23, 8, 23, 46]}, "sec": "Opening"}, {"id": "w2", "type": "multi", "q": "What do you mostly use it for?", "hint": "Pick all that apply", "opts": ["Writing and editing", "Summarising documents or meetings", "Bids and content", "Data and calculations", "Research", "Not much yet"], "sec": "Opening"}, {"id": "pf0", "type": "note", "title": "Product footprinting at Greener Edge", "body": "Visual to be added.", "sec": "Product footprinting"}, {"id": "pf1", "type": "single", "q": "Have clients asked you about product footprints?", "opts": ["Often", "Sometimes", "Not yet", "Not sure"], "sec": "Product footprinting"}, {"id": "pf2", "type": "scale", "q": "How confident would you feel explaining a product footprint to a client?", "ends": ["Not at all", "Very"], "sec": "Product footprinting"}, {"id": "pr0", "type": "note", "title": "Give Claude what you’d give a colleague", "bullets": [["Context", "Who it’s for, why, and what you already know."], ["A clear task", "Say exactly what you want done."], ["The source", "Upload the guidance, data or draft. Don’t rely on its memory."], ["What you want back", "Length, format, tone, and what to leave out."], ["An example", "Show it what good looks like."], ["Room to check", "Ask it to ask you questions first, or to flag what it’s unsure of."]], "link": {"text": "Anthropic’s prompting guide", "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}, "sec": "Prompts"}, {"id": "p1", "type": "single", "q": "Bid paragraph. Which would you submit?", "hint": "A: “Write a paragraph about our experience.” B: the question, your rough draft, and how to tighten it.", "opts": ["A", "B", "Neither"], "sec": "Prompts"}, {"id": "p2", "type": "single", "q": "CRP check. Which could you act on?", "hint": "A: “Check this CRP.” B: what to compare, list mismatches with locations, mark anything uncertain.", "opts": ["A", "B", "Neither"], "sec": "Prompts"}, {"id": "p3", "type": "single", "q": "Grants. Would you put answer A in a client email?", "hint": "A answered from memory. B answered only from the funder’s guidance.", "opts": ["Yes", "Only after checking", "No"], "sec": "Prompts"}, {"id": "d0", "type": "note", "title": "Share what the task needs, in the right place", "bullets": [["Right account", "Use the GE Claude account for client work, not a personal one."], ["Only what’s needed", "Share what the task needs. Leave out details it doesn’t."], ["Check the terms", "Some work has its own data terms. Check before reusing it."], ["Keep it in GE", "Projects and shared artifacts with client material stay GE-only."]], "sec": "Sharing data"}, {"id": "d1", "type": "example", "answer": 0, "q": "Someone uses the GE Claude account to turn a client’s energy bills into the data tables for their CRP, then checks the totals.", "why": "Right account, the data the task needs, and the numbers are checked.", "sec": "Sharing data"}, {"id": "d2", "type": "example", "answer": 1, "q": "Someone drafts a client report in their personal Claude account because it’s quicker on their phone.", "why": "Personal accounts follow different data terms. Client work belongs in the GE account.", "sec": "Sharing data"}, {"id": "d3", "type": "example", "answer": 1, "q": "Someone pastes a client’s full contact list, with names and phone numbers, when they only need the number of sites.", "why": "Share only what the task needs. Personal details add risk for no benefit.", "sec": "Sharing data"}, {"id": "d4", "type": "example", "answer": 1, "q": "Someone uses data from a Welsh Government programme to test a new internal tool without checking the data-use terms.", "why": "Some work has its own rules on how data can be used. Check first, and ask the project lead.", "sec": "Sharing data"}, {"id": "s0", "type": "note", "title": "Two tools, two jobs", "bullets": [["A Project", "Background Claude always has: a client’s files, a theme, ongoing work."], ["A skill", "A method Claude uses when the job comes up: the same steps, rules and checks every time."], ["A plain prompt", "For anything you’ll only do once."]], "foot": "In June, 40% of picks said data entry and cleaning would save the most time if automated.", "sec": "Skills"}, {"id": "s1", "type": "single", "q": "Checking every CRP against WPPN 006 before it’s issued", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 0, "why": "Same method, same checklist, every time.", "sec": "Skills"}, {"id": "s2", "type": "single", "q": "Six months of work with one client, their reports and data", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 1, "why": "Same background every time, so it belongs in a Project.", "sec": "Skills"}, {"id": "s3", "type": "single", "q": "Rewording one awkward email", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 2, "why": "A one-off. Just ask.", "sec": "Skills"}, {"id": "s4", "type": "single", "q": "Deciding whether a client’s data is valid", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 3, "why": "Claude can spot oddities, but the judgement is ours.", "sec": "Skills"}, {"id": "lb1", "type": "single", "q": "We’ve planted six errors in this report. How many will Claude find?", "opts": ["0 to 2", "3 to 4", "5", "All 6"], "sec": "Live build"}, {"id": "lb2", "type": "single", "q": "Did Claude flag anything that wasn’t an error?", "opts": ["Yes", "No", "Not sure yet"], "sec": "Live build"}, {"id": "lb3", "type": "single", "q": "Would you send its findings on without checking each one?", "opts": ["Yes", "Some of them", "No"], "sec": "Live build"}, {"id": "tl", "type": "roadmap", "title": "Where our tools are heading", "cols": [{"when": "Live now", "tag": "Live", "tone": "live", "items": ["Claude Team plan", "“Using Claude at Greener Edge” guide", "GE skills: walkthrough notes, CRP review, report populator"]}, {"when": "Live, still developing", "tag": "Alpha", "tone": "alpha", "items": ["GE Intelligence dashboard"]}, {"when": "In progress", "tag": "Building", "tone": "build", "items": ["Product carbon footprint tool", "Organisational footprint tool restructure"]}, {"when": "Next", "tag": "Target", "tone": "target", "items": ["Microsoft 365 connection, once admin is set up"]}, {"when": "Alongside", "tag": "Ongoing", "tone": "ongoing", "items": ["Shared skills, built from today’s ideas"]}, {"when": "Exploring", "tag": "Exploring", "tone": "explore", "items": ["Your June ideas: expertise matching, case study summaries, sector plan updates"]}], "sec": "Wrap"}, {"id": "c1", "type": "open", "q": "One job you’d want a skill for", "hint": "This becomes our build list", "sec": "Wrap"}, {"id": "c2", "type": "multi", "q": "What would help you most next?", "hint": "Pick your top few", "opts": ["A library of good prompts", "A drop-in Claude clinic", "A skill-building session", "Shared GE Projects to start from"], "sec": "Wrap"}, {"id": "end", "type": "note", "title": "Thank you", "body": "Your questions stay open on this page. We’ll follow up on the ones we don’t get to today.", "sec": "Wrap"}];
+const STEPS = [{"id": "intro0", "type": "intro", "title": "Product footprinting, Claude and skills", "body": "Scan the code to join. Your phone follows along as we go, and you can send us a question at any point.", "sec": "Welcome"}, {"id": "w1", "type": "single", "q": "How often do you use Claude now?", "opts": ["Never", "A few times a month", "A few times a week", "Every working day"], "foot": "In June the options were worded differently: 46% said most days and 23% said never (13 votes).", "sec": "Welcome"}, {"id": "w2", "type": "multi", "q": "What do you mostly use it for?", "hint": "Pick all that apply, or add your own", "opts": ["Writing and editing", "Summarising documents or meetings", "Bids and content", "Data and calculations", "Research", "Not much yet"], "other": true, "sec": "Welcome"}, {"id": "pfi", "type": "intro", "title": "Product footprinting", "body": "What it is, what we’ve done so far, and why it’s where the market is heading.", "sec": "Product footprinting"}, {"id": "pfv", "type": "lifecycle", "title": "One product, followed through its life", "stages": ["Ingredients and farming", "Transport in", "Processing", "Packaging", "Distribution and retail", "Use", "End of life"], "gate": 4, "compare": [["Organisational footprint", "One business, one year, everything it does."], ["Product footprint", "One product, its whole life, per unit sold."]], "sec": "Product footprinting"}, {"id": "pf1", "type": "single", "q": "For most food products, where does the biggest share of the footprint sit?", "opts": ["Ingredients and farming", "Processing", "Packaging", "Transport"], "answer": 0, "why": "For most foods, growing and farming the ingredients outweighs everything else. That’s why ingredient data matters most.", "sec": "Product footprinting"}, {"id": "pfw", "type": "note", "title": "What we’ve done, and what’s next", "bullets": [["Welsh Government", "Technical delivery partner on the Food and Drink Sustainability Service. Our product footprinting tool is built on WRAP’s LED4Food method, which aligns with ISO 14067, and product pilots are under way."], ["Hogan Group", "Cradle-to-gate carbon factors for each asphalt product, for use in their quotes. They’ve now asked about EPDs, and we’re building that capability."], ["ISO 14067", "The international standard for product carbon footprints. UKAS is developing accreditation for verifying them, and we’ve registered our interest."], ["Our own tool", "An in-house product footprint tool is in build."]], "sec": "Product footprinting"}, {"id": "pfy", "type": "note", "title": "Why businesses want one", "bullets": [["Customers are asking", "Retailers and buyers want product-level data to work out their own supply chain emissions."], ["Tenders are asking", "In some sectors, like construction, product data such as EPDs is becoming part of winning work."], ["It shows where to act", "It shows which stage of a product’s life drives its footprint, so effort goes to the right place."], ["Claims need evidence", "Green claims about a product have to be backed up. A footprint to a recognised standard is that evidence."]], "foot": "UKAS developing accreditation for ISO 14067 verification is a sign the market is maturing.", "sec": "Product footprinting"}, {"id": "pri", "type": "intro", "title": "Using Claude well", "body": "What makes a good prompt, which model to use, and how to share data safely.", "sec": "Using Claude well"}, {"id": "pr1", "type": "scale", "q": "How confident are you that you know what makes a good prompt?", "ends": ["Not at all", "Very"], "sec": "Using Claude well"}, {"id": "pr2", "type": "open", "cloud": true, "q": "Name one thing that makes a prompt work", "hint": "A word or two, like “context”", "sec": "Using Claude well"}, {"id": "pr0", "type": "note", "title": "This is what makes a good prompt", "bullets": [["Context", "Who it’s for, why, and what you already know."], ["A clear task", "Say exactly what you want done."], ["The source", "Upload the guidance, data or draft. Don’t rely on its memory."], ["What you want back", "Length, format, tone, and what to leave out."], ["An example", "Show it what good looks like."], ["Room to check", "Ask it to ask you questions first, or to flag what it’s unsure of."]], "link": {"text": "Anthropic’s prompting guide", "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}, "sec": "Using Claude well"}, {"id": "p1", "type": "single", "q": "Bid writing: which prompt would get you a paragraph you could submit?", "hint": "Same task, two ways of asking. We’ll run both live. Vote before you see what comes back.", "opts": ["A: “Write a paragraph about Greener Edge’s carbon footprinting experience for a bid.”", "B: “Here’s the tender question and my rough draft. Tighten it to 250 words, keep my examples and wording, add no new claims, and list anything I should back up with evidence.”"], "answer": 1, "why": "B gives Claude the question, your thinking and the rules. A gets a generic paragraph about a company it doesn’t know.", "sec": "Using Claude well"}, {"id": "p2", "type": "single", "q": "CRP review: which prompt would give you something you could act on?", "hint": "Same task, two ways of asking. We’ll run both live. Vote before you see what comes back.", "opts": ["A: “Check this CRP.”", "B: “Check the figures in the summary table match the narrative and the appendix. List each mismatch and where it is. Don’t fix anything. Mark anything you’re unsure of.”"], "answer": 1, "why": "B says what to check, how to report it, and what not to do. A gets general comments.", "sec": "Using Claude well"}, {"id": "p3", "type": "single", "q": "Grants: which answer would you trust in a client email?", "hint": "Same task, two ways of asking. We’ll run both live. Vote before you see what comes back.", "opts": ["A: “What grants can a Welsh food business get for solar panels?”", "B: “Here’s the funder’s current guidance. Using only this document, say who’s eligible, what’s funded and the deadline. If it isn’t in the document, say so.”"], "answer": 1, "why": "A answers from memory, which can be out of date or wrong. B answers from the source and says what it doesn’t know.", "sec": "Using Claude well"}, {"id": "d0", "type": "note", "title": "Share what the task needs, in the right place", "bullets": [["Right account", "Use the GE Claude account for client work, not a personal one."], ["Only what’s needed", "Share what the task needs. Leave out details it doesn’t."], ["Check the terms", "Some work has its own data terms. Check before reusing it."], ["Keep it in GE", "Projects and shared artifacts with client material stay GE-only."]], "sec": "Using Claude well"}, {"id": "d1", "type": "example", "answer": 0, "q": "Someone uses the GE Claude account to turn a client’s energy bills into the data tables for their CRP, then checks the totals.", "why": "Right account, the data the task needs, and the numbers are checked.", "sec": "Using Claude well"}, {"id": "d2", "type": "example", "answer": 1, "q": "Someone drafts a client report in their personal Claude account because it’s quicker on their phone.", "why": "Personal accounts follow different data terms. Client work belongs in the GE account.", "sec": "Using Claude well"}, {"id": "d3", "type": "example", "answer": 1, "q": "Someone pastes a client’s full contact list, with names and phone numbers, when they only need the number of sites.", "why": "Share only what the task needs. Personal details add risk for no benefit.", "sec": "Using Claude well"}, {"id": "d4", "type": "example", "answer": 0, "q": "Someone adds a past report, with the client’s details removed, to a Project as an example of our house style.", "why": "Anonymised first, and a good example improves everything Claude drafts in that Project.", "sec": "Using Claude well"}, {"id": "ski", "type": "intro", "title": "Skills", "body": "What they are, how they differ from Projects, and where they stop being useful.", "sec": "Skills"}, {"id": "s0", "type": "note", "title": "Projects and skills do different jobs", "bullets": [["A Project", "A shared workspace. Claude reads its files and instructions in every chat inside it. Use it for ongoing work on one client or theme."], ["A skill", "A saved method. Claude picks it up whenever a task matches, in any chat. Use it for a job you do the same way every time."], ["A plain prompt", "Just ask. Use it for anything you’ll only do once."]], "foot": "In June, 40% of picks said data entry and cleaning would save the most time if automated.", "sec": "Skills"}, {"id": "s1", "type": "single", "q": "Checking every CRP against WPPN 006 before it’s issued", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 0, "why": "Same method, same checklist, every time.", "sec": "Skills"}, {"id": "s2", "type": "single", "q": "Six months of work with one client, their reports and data", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 1, "why": "Same background every time, so it belongs in a Project.", "sec": "Skills"}, {"id": "s3", "type": "single", "q": "Rewording one awkward email", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 2, "why": "A one-off. Just ask.", "sec": "Skills"}, {"id": "s4", "type": "single", "q": "Deciding a report is ready to send to the client", "hint": "Skill, Project, plain prompt, or not a job for AI?", "opts": ["Skill", "Project", "Plain prompt", "Not a job for AI"], "answer": 3, "why": "Claude can check it, but signing it off is a professional judgement, and it’s ours.", "sec": "Skills"}, {"id": "lbi", "type": "intro", "title": "Let’s build a skill", "body": "You suggest it. We build it live, then test it.", "sec": "Live build"}, {"id": "lbw", "type": "open", "cloud": true, "q": "What skill would be useful in your work?", "hint": "A few words, like “proposal formatter”", "sec": "Live build"}, {"id": "lbn", "type": "note", "title": "Building it now", "body": "We’ll pick one of your ideas and build it with Claude’s skill builder. Call out answers as it asks its questions.", "sec": "Live build"}, {"id": "lb0", "type": "note", "backup": true, "title": "Backup: a report consistency checker", "body": "We’ll build a skill that checks a report for grammar, formatting and consistency, then test it on a practice CRP.", "sec": "Live build"}, {"id": "lb1", "type": "single", "backup": true, "q": "We’ve planted six errors in this report. How many will Claude find?", "opts": ["0 to 2", "3 to 4", "5", "All 6"], "sec": "Live build"}, {"id": "lb2", "type": "single", "backup": true, "q": "Did Claude flag anything that wasn’t an error?", "opts": ["Yes", "No", "Not sure yet"], "sec": "Live build"}, {"id": "lb3", "type": "single", "q": "Would you send Claude’s findings on without checking each one?", "opts": ["Yes", "Some of them", "No"], "sec": "Live build"}, {"id": "wri", "type": "intro", "title": "Wrapping up", "body": "Where our tools are heading, and what would help you next.", "sec": "Wrap"}, {"id": "tl", "type": "roadmap", "title": "Where our tools are heading", "cols": [{"when": "Live now", "tag": "Live", "tone": "live", "items": ["Claude Team plan", "“Using Claude at Greener Edge” guide", "GE skills: walkthrough notes, CRP review, report populator"]}, {"when": "Live, still developing", "tag": "Alpha", "tone": "alpha", "items": ["GE Intelligence dashboard"]}, {"when": "In progress", "tag": "Building", "tone": "build", "items": ["Product carbon footprint tool", "Organisational footprint tool restructure"]}, {"when": "Next", "tag": "Target", "tone": "target", "items": ["Microsoft 365 connection, once admin is set up"]}, {"when": "Alongside", "tag": "Ongoing", "tone": "ongoing", "items": ["Shared skills, built from today’s ideas"]}, {"when": "Exploring", "tag": "Exploring", "tone": "explore", "items": ["Your June ideas: expertise matching, case study summaries, sector plan updates"]}], "sec": "Wrap"}, {"id": "c2", "type": "multi", "q": "What would help you most next?", "hint": "Pick your top few", "opts": ["A library of good prompts", "A drop-in Claude clinic", "A skill-building session", "Shared GE Projects to start from"], "sec": "Wrap"}, {"id": "end", "type": "intro", "title": "Thank you", "body": "Your questions stay open on this page. We’ll follow up on the ones we don’t get to today.", "sec": "Wrap"}];
 const ASK_ID = 'ask';
 /* ===== end settings ===== */
 
@@ -200,6 +233,7 @@ const labels = q => q.type === 'scale' ? ['1','2','3','4','5'] : q.type === 'exa
 function counts(q){ const n = nOpts(q), c = new Array(n).fill(0); keysFor('v:' + q.id + ':').forEach(k => { const i = parseInt(k.split(':')[2], 10); if(i >= 0 && i < n) c[i]++; }); return c; }
 function mine(q){ const s = new Set(); keysFor('v:' + q.id + ':').forEach(k => { if(k.endsWith(':' + uid)) s.add(parseInt(k.split(':')[2], 10)); }); return s; }
 function voters(q){ const s = new Set(); keysFor('v:' + q.id + ':').forEach(k => s.add(k.split(':')[3])); return s.size; }
+function words(qid){ return keysFor('o:' + qid + ':').map(k => db[k]).filter(v => typeof v === 'string'); }
 function texts(qid){ return keysFor('s:' + qid + ':').map(k => ({k, v: db[k]})).filter(o => typeof o.v === 'string'); }
 const flag = k => !!db[k];
 
@@ -209,6 +243,7 @@ async function vote(q, i){
   for(const j of mineSet){ if(j !== i) await del('v:' + q.id + ':' + j + ':' + uid); }
   if(!mineSet.has(i)) await put(key, 1);
 }
+async function sendWord(qid, t){ t = (t || '').trim().slice(0, 40); if(!t) return false; await put('o:' + qid + ':' + uid + ':' + rnd(), t); return true; }
 async function sendText(qid, t){ t = (t || '').trim().slice(0, 300); if(!t) return false; await put('s:' + qid + ':' + uid + ':' + rnd(), t); return true; }
 
 /* ===================== PHONE ===================== */
@@ -236,6 +271,15 @@ function renderPhone(){
 }
 function phoneStepHTML(q){
   let h = '<p class="ph-sec">' + esc(q.sec) + '</p>';
+  if(q.type === 'intro'){
+    return '<div class="ph-intro">' + h + '<h1 class="ph-q">' + esc(q.title) + '</h1>' + (q.body ? '<p class="note-body">' + esc(q.body) + '</p>' : '') + '</div>';
+  }
+  if(q.type === 'lifecycle'){
+    h += '<h1 class="ph-q">' + esc(q.title) + '</h1><ol class="ph-life">';
+    q.stages.forEach((s, i) => { if(i === q.gate) h += '<li class="gate">Factory gate. Cradle to gate stops here.</li>'; h += '<li' + (i >= q.gate ? ' class="post"' : '') + '>' + esc(s) + '</li>'; });
+    h += '<li class="gate">Cradle to grave covers every stage.</li></ol><div class="ph-cmp">' + q.compare.map(c => '<div><b>' + esc(c[0]) + '</b>' + esc(c[1]) + '</div>').join('') + '</div>';
+    return h;
+  }
   if(q.type === 'note'){
     h += '<h1 class="ph-q">' + esc(q.title) + '</h1>';
     if(q.body) h += '<p class="note-body">' + esc(q.body) + '</p>';
@@ -249,7 +293,7 @@ function phoneStepHTML(q){
   }
   if(q.type === 'open'){
     return h + '<h1 class="ph-q">' + esc(q.q) + '</h1>' + (q.hint ? '<p class="ph-hint">' + esc(q.hint) + '</p>' : '')
-      + '<label for="ota" class="ph-sec">Your answer</label><textarea id="ota" maxlength="300"></textarea><button class="send" id="osend" type="button">Send answer</button><div class="saved" id="omsg"></div>';
+      + '<label for="ota" class="ph-sec">Your answer</label><textarea id="ota" maxlength="' + (q.cloud ? 40 : 300) + '"' + (q.cloud ? ' style="min-height:70px"' : '') + '></textarea><button class="send" id="osend" type="button">Send answer</button><div class="saved" id="omsg"></div>';
   }
   if(q.type === 'example'){
     h += '<p class="ph-hint">Good use or bad use?</p><h1 class="scenario">' + esc(q.q) + '</h1>';
@@ -260,11 +304,14 @@ function phoneStepHTML(q){
     h += '<div class="opts scale" role="group" aria-label="Pick 1 to 5">' + [0,1,2,3,4].map(i => '<button type="button" class="opt" data-i="' + i + '" aria-pressed="false"><span class="tick"></span>' + (i+1) + '</button>').join('') + '</div><div class="ends"><span>1 \u00b7 ' + esc(q.ends[0]) + '</span><span>5 \u00b7 ' + esc(q.ends[1]) + '</span></div>';
   } else {
     h += '<div class="opts' + (q.type === 'multi' ? ' multi' : '') + '" role="group" aria-label="Your answer">' + q.opts.map((o,i) => '<button type="button" class="opt" data-i="' + i + '" aria-pressed="false"><span class="tick"></span>' + esc(o) + '</button>').join('') + '</div>';
+    if(q.other) h += '<label for="oin" class="ph-sec" style="display:block;margin-top:18px">Something else? A word or two</label><div class="other-row"><input id="oin" maxlength="40" autocomplete="off"><button class="send" id="oadd" type="button">Add</button></div><div class="saved" id="oaddmsg"></div>';
   }
   return h + '<div class="saved" id="smsg"></div>';
 }
 function bindPhone(q){
   document.querySelectorAll('#ph .opt').forEach(b => b.onclick = () => vote(q, parseInt(b.dataset.i, 10)));
+  const oa = document.getElementById('oadd');
+  if(oa) oa.onclick = async () => { const inp = document.getElementById('oin'); if(await sendWord(q.id, inp.value)){ inp.value=''; document.getElementById('oaddmsg').textContent = 'Added. It\u2019s on the screen.'; } };
   const s = document.getElementById('osend');
   if(s) s.onclick = async () => { const ta = document.getElementById('ota'); if(await sendText(q.id, ta.value)){ ta.value=''; document.getElementById('omsg').textContent = 'Sent. Add another if you like.'; } };
 }
@@ -321,8 +368,16 @@ function renderScreen(){
   else if(q.type === 'open'){ const n = texts(q.id).length; cnt.textContent = n; cntl.textContent = n === 1 ? 'answer' : 'answers'; }
   else { const n = texts(ASK_ID).length; cnt.textContent = n; cntl.textContent = n === 1 ? 'question asked' : 'questions asked'; }
 
-  let h = '<p class="sc-sec">' + esc(q.sec) + '</p>';
-  if(q.type === 'note'){
+  let h = '<p class="sc-sec">' + esc(q.sec) + (q.backup ? '<span class="tag-b">Backup demo</span>' : '') + '</p>';
+  if(q.type === 'intro'){
+    h = '<div class="sc-intro">' + h + '<h1 class="sc-q">' + esc(q.title) + '</h1>' + (q.body ? '<p class="sc-body">' + esc(q.body) + '</p>' : '') + '</div>';
+  } else if(q.type === 'lifecycle'){
+    const pre = q.gate, post = q.stages.length - q.gate;
+    h += '<h1 class="sc-q">' + esc(q.title) + '</h1><div class="life"><div class="life-row">' + q.stages.map((s, i) => '<div class="life-st' + (i >= q.gate ? ' post' : '') + '">' + esc(s) + '</div>').join('') + '</div>'
+      + '<div class="life-br"><div style="grid-column:span ' + pre + '"></div><div style="grid-column:span ' + post + ';border-style:dashed"></div></div>'
+      + '<div class="life-lab"><span style="grid-column:span ' + pre + '">Cradle to gate: up to the factory gate</span><span style="grid-column:span ' + post + '">On to the grave: use and disposal</span></div>'
+      + '<div class="life-cmp">' + q.compare.map(c => '<div><b>' + esc(c[0]) + '</b>' + esc(c[1]) + '</div>').join('') + '</div></div>';
+  } else if(q.type === 'note'){
     h += '<h1 class="sc-q">' + esc(q.title) + '</h1>';
     if(q.body) h += '<p class="sc-body">' + esc(q.body) + '</p>';
     if(q.bullets) h += '<ul class="sc-note-b">' + q.bullets.map(b => '<li><b>' + esc(b[0]) + '</b>' + esc(b[1]) + '</li>').join('') + '</ul>';
@@ -330,15 +385,17 @@ function renderScreen(){
   } else if(q.type === 'roadmap'){
     h += '<h1 class="sc-q">' + esc(q.title) + '</h1><div class="road">' + q.cols.map(c => '<div class="' + c.tone + '"><div class="w">' + esc(c.when) + '</div><span class="t">' + esc(c.tag) + '</span><div class="i">' + c.items.map(esc).join('<br>') + '</div></div>').join('') + '</div>';
   } else if(q.type === 'open'){
-    h += '<h1 class="sc-q">' + esc(q.q) + '</h1>' + wallHTML(texts(q.id));
+    h += '<h1 class="sc-q">' + esc(q.q) + '</h1>' + (q.cloud ? cloudHTML(texts(q.id).map(o => o.v)) : wallHTML(texts(q.id)));
   } else {
     h += q.type === 'example' ? '<p class="sc-hint">Good use or bad use?</p><h1 class="sc-scn">' + esc(q.q) + '</h1>' : '<h1 class="sc-q">' + esc(q.q) + '</h1>' + (q.hint ? '<p class="sc-hint">' + esc(q.hint) + '</p>' : '');
     const hide = q.type === 'example' && !flag('rv:' + q.id);
     h += hide ? '<p class="hidden-v">Votes hidden until reveal.</p>' : barsHTML(q);
     if(flag('ra:' + q.id)){
-      const ok = q.type === 'example' ? (q.answer === 0 ? 'Good use.' : 'Bad use.') : q.opts[q.answer] + '.';
+      const ao = q.opts ? q.opts[q.answer] : ''; const ok = q.type === 'example' ? (q.answer === 0 ? 'Good use.' : 'Bad use.') : (/^[A-Z]:/.test(ao) ? 'Prompt ' + ao[0] + '.' : ao + '.');
       h += '<div class="answer' + (q.type === 'example' && q.answer === 1 ? ' bad' : '') + '"><b>' + esc(ok) + '</b> ' + esc(q.why || '') + '</div>';
     }
+    if(q.other){ const w = words(q.id); if(w.length) h += '<p class="cloud-h">Also said</p>' + cloudHTML(w); }
+    if(q.foot) h += '<p class="sc-foot">' + esc(q.foot) + '</p>';
   }
   st.innerHTML = h;
   requestAnimationFrame(() => st.querySelectorAll('[data-w]').forEach(el => el.style.width = el.dataset.w));
@@ -358,6 +415,12 @@ function barsHTML(q){
   if(q.compare) h += '<p class="cmp-key">Thin line: ' + esc(q.compare.label) + '</p>';
   return h;
 }
+function cloudHTML(list){
+  if(!list.length) return '<p class="sc-empty">No words yet. They\u2019ll appear here as people send them.</p>';
+  const m = {}; list.forEach(v => { const k = v.toLowerCase().replace(/\s+/g,' ').trim().replace(/[.!?,;:]+$/,''); if(!k) return; (m[k] = m[k] || {t: v.trim(), n: 0}).n++; });
+  const arr = Object.values(m).sort((a,b) => b.n - a.n), max = arr[0].n, cols = ['#85BE00','#FFFFFF','#9FD3C9','#E0B94A'];
+  return '<div class="cloud" aria-label="Word cloud">' + arr.map((o, i) => { const f = max > 1 ? (o.n - 1) / (max - 1) : 0; const size = 'calc(' + (1.1 + f * 2.6).toFixed(2) + 'rem + ' + (0.6 + f * 1.6).toFixed(2) + 'vw)'; return '<span style="font-size:' + size + ';color:' + cols[i % cols.length] + '">' + esc(o.t) + '</span>'; }).join('') + '</div>';
+}
 function wallHTML(items){
   if(!items.length) return '<p class="sc-empty">No answers yet. They\u2019ll appear here as people send them.</p>';
   const m = {}; items.forEach(o => { const k = o.v.toLowerCase().replace(/\s+/g,' ').trim().replace(/[.!?,;:]+$/,''); (m[k] = m[k] || {t: o.v, n: 0}).n++; });
@@ -368,10 +431,10 @@ function exportResults(){
   let sec = '';
   STEPS.forEach(q => {
     if(q.sec !== sec){ sec = q.sec; L.push('== ' + sec + ' ==', ''); }
-    if(q.type === 'note' || q.type === 'roadmap') return;
+    if(['note','roadmap','intro','lifecycle'].includes(q.type)) return;
     L.push(q.q);
     if(q.type === 'open'){ const t = texts(q.id); if(!t.length) L.push('  (no answers)'); t.forEach(o => L.push('  - ' + o.v)); }
-    else { const c = counts(q), tot = c.reduce((a,b) => a+b, 0); L.push('  (' + voters(q) + ' people, ' + tot + ' votes)'); labels(q).forEach((l,i) => L.push('  - ' + l + ': ' + c[i] + ' (' + (tot ? Math.round(c[i]/tot*100) : 0) + '%)')); }
+    else { const c = counts(q), tot = c.reduce((a,b) => a+b, 0); L.push('  (' + voters(q) + ' people, ' + tot + ' votes)'); labels(q).forEach((l,i) => L.push('  - ' + l + ': ' + c[i] + ' (' + (tot ? Math.round(c[i]/tot*100) : 0) + '%)')); if(q.other){ const w = words(q.id); if(w.length){ L.push('  Also said:'); w.forEach(x => L.push('   - ' + x)); } } }
     L.push('');
   });
   L.push('== Questions from the room ==', ''); const a = texts(ASK_ID); if(!a.length) L.push('  (none)'); a.forEach(o => L.push('  - ' + o.v));
