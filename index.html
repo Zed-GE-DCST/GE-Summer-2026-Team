@@ -354,6 +354,12 @@ a{color:var(--teal);font-weight:700}
 .cloudbox{height:clamp(260px,52vh,700px)}
 .wall span{font-size:clamp(17px,1.7vw,30px)}
 @media (max-width:1000px){.vizgrid{grid-template-columns:1fr}}
+
+.conf{position:absolute;top:-30px;border-radius:2px;animation:confall 3s cubic-bezier(.25,.6,.4,1) forwards;opacity:.95}
+.conf.char{background:none;line-height:1}
+@keyframes confall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--sx),110vh) rotate(var(--rot));opacity:.9}}
+.fun-toast{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);background:#fff;color:var(--ink);font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,72px);padding:.3em .8em;border-radius:999px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:toastpop 2.6s cubic-bezier(.2,1.4,.4,1) forwards;white-space:nowrap}
+@keyframes toastpop{0%{transform:translate(-50%,-50%) scale(.3) rotate(-6deg);opacity:0}15%{transform:translate(-50%,-50%) scale(1.06) rotate(2deg);opacity:1}25%{transform:translate(-50%,-50%) scale(1) rotate(0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(.95)}}
 </style>
 </head>
 <body>
@@ -626,6 +632,7 @@ function screenShell(){
     else if(e.key === 'v' || e.key === 'V') document.getElementById('bVotes').click();
     else if(e.key === 'a' || e.key === 'A') document.getElementById('bAns').click();
     else if(e.key === 'q' || e.key === 'Q') document.getElementById('bAsk').click();
+    else if(e.key === 'c' || e.key === 'C') confetti(110);
     else if(e.key === 'h' || e.key === 'H'){ const hs = hands(); if(hs.length) del(hs[0].k); }
   });
   let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { builtKey = ''; render(); }, 200); });
@@ -654,6 +661,7 @@ function renderScreen(){
   sideCount(q);
   floatReactions();
   drawHands();
+  funChecks(q);
   const ov = document.getElementById('ov'); ov.classList.toggle('open', showAsk);
   if(showAsk){ const t = texts(ASK_ID); document.getElementById('olist').innerHTML = t.length ? t.map(o => '<div>' + esc(o.v) + '</div>').join('') : '<p class="sc-empty">No questions yet. They\u2019ll appear here as people send them.</p>'; }
 }
@@ -907,6 +915,42 @@ function dirGraph(q, ideas){
     idg += '<g class="d-idea' + (isNew ? ' pop' : '') + '" style="transform-origin:' + x + 'px ' + y + 'px"><rect x="' + (x - 112) + '" y="' + (y - 22) + '" width="224" height="44" rx="22" fill="#5E4A3F" stroke="#F28C6B" stroke-width="2.5"/><text x="' + x + '" y="' + (y + 6) + '" text-anchor="middle" class="d-t">' + esc(o.t.length > 24 ? o.t.slice(0, 23) + '\u2026' : o.t) + (o.n > 1 ? ' \u00d7' + o.n : '') + '</text></g>'; });
   return s + idg + '</svg>';
 }
+/* ----- little bits of fun ----- */
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function confetti(n, chars){
+  const layer = document.getElementById('rlayer'); if(!layer || calm()) return;
+  const cols = ['#85BE00','#E0B94A','#F28C6B','#9FD3C9','#B8A4F0','#FFFFFF'];
+  for(let i = 0; i < (n || 90); i++){
+    const s = document.createElement('span'); s.className = 'conf';
+    if(chars){ s.textContent = chars[i % chars.length]; s.style.fontSize = (26 + Math.random() * 26) + 'px'; s.classList.add('char'); }
+    else { s.style.background = cols[i % cols.length]; s.style.width = (6 + Math.random() * 8) + 'px'; s.style.height = (10 + Math.random() * 10) + 'px'; }
+    s.style.left = (Math.random() * 100) + '%'; s.style.animationDuration = (2.2 + Math.random() * 2.2) + 's'; s.style.animationDelay = (Math.random() * .6) + 's';
+    s.style.setProperty('--sx', (Math.random() * 200 - 100) + 'px'); s.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg');
+    layer.appendChild(s); setTimeout(() => s.remove(), 5200);
+  }
+}
+function funToast(msg){
+  const layer = document.getElementById('rlayer'); if(!layer) return;
+  const s = document.createElement('div'); s.className = 'fun-toast'; s.textContent = msg; layer.appendChild(s); setTimeout(() => s.remove(), 2600);
+}
+let funState = {ra: {}, mile: {}, end: false, cabbage: new Set(), combo: []};
+function funChecks(q){
+  // confetti when an answer is revealed
+  const raOn = flag('ra:' + q.id);
+  if(raOn && funState.ra[q.id] === false) confetti(70);
+  funState.ra[q.id] = raOn;
+  // milestones
+  if(isVote(q)){ const v = voters(q), m = Math.floor(v / 10) * 10, prev = funState.mile[q.id];
+    if(prev !== undefined && m > prev && m > 0) funToast('\u{1F389} ' + m + ' votes!');
+    funState.mile[q.id] = m; }
+  // thank you slide
+  if(q.id === 'end' && !funState.end){ funState.end = true; confetti(140); }
+  if(q.id !== 'end') funState.end = false;
+  // the June cabbage, back by popular demand
+  const all = keysFor('s:').concat(keysFor('o:'));
+  all.forEach(k => { const v = db[k]; if(typeof v === 'string' && /cabbage/i.test(v) && !funState.cabbage.has(k)){ const first = funState.cabbageReady; funState.cabbage.add(k); if(first) { confetti(40, ['\u{1F96C}']); funToast('\u{1F96C} The cabbage is back'); } } });
+  funState.cabbageReady = true;
+}
 /* emoji reactions float up the screen */
 let reactSeen = null;
 function floatReactions(){
@@ -915,6 +959,10 @@ function floatReactions(){
   const layer = document.getElementById('rlayer'); if(!layer) return;
   ks.forEach(k => { if(reactSeen.has(k)) return; reactSeen.add(k);
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const now = Date.now(); funState.combo = funState.combo.filter(c => now - c.t < 4000); funState.combo.push({e: db[k], t: now});
+    const same = funState.combo.filter(c => c.e === db[k]).length;
+    if(same === 6){ funToast(db[k] + ' \u00d76 combo!'); }
+    if(same === 12){ funToast(db[k] + ' \u00d712 MEGA combo!'); confetti(30, [db[k]]); funState.combo = []; }
     const s = document.createElement('span'); s.className = 'rfloat'; s.textContent = db[k]; s.style.left = (8 + Math.random() * 84) + '%'; s.style.animationDuration = (2.6 + Math.random() * 1.4) + 's'; s.style.fontSize = (34 + Math.random() * 30) + 'px';
     layer.appendChild(s); setTimeout(() => s.remove(), 4300); });
 }
